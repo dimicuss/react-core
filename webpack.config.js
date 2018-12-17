@@ -13,12 +13,18 @@ const entry = readDirRecursive(srcName)
   .filter(name => name.match(indexRegEx) !== null)
   .reduce((acc, name) => { acc[name] = path.resolve(srcName, name); return acc; }, {});
 
+const externals = Object
+  .keys(dependencies)
+  .reduce((acc, name) => { acc[name] = { commonjs: name, commonjs2: name, amd: name }; return acc; }, {});
+
 
 module.exports = {
   entry,
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: '[name]'
+    filename: '[name]',
+    library: '[name]',
+    libraryTarget: 'umd',
   },
   module: {
     rules: [
@@ -31,6 +37,6 @@ module.exports = {
     ],
   },
   resolve: { extensions: ['.js'] },
-  externals: Object.keys(dependencies),
+  externals,
   mode: isProduction ? 'production' : 'development',
 };
