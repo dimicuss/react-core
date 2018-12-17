@@ -2,7 +2,7 @@ import { delay } from 'redux-saga';
 import { LOCATION_CHANGE } from 'connected-react-router';
 import { takeEvery, select, fork } from 'redux-saga/effects';
 
-import { selectRouter } from '../../constants/selectors/selectors';
+import { selectRouter } from '../../constants/selectors';
 
 
 export default function createLocationChangeHandler(baseRouteName, handler) {

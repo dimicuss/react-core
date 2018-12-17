@@ -4,7 +4,7 @@ import { parse, stringify } from 'query-string';
 import pickBy from 'lodash/fp/pickBy';
 import { flow, negate, isEmpty, mapValues, identity, isNumber, cond, stubTrue } from 'lodash';
 
-import normalizeObj from '@/utils/normalizeObj';
+import normalize from '../normalize';
 
 
 const trulyIsEmpty = cond([
@@ -25,12 +25,12 @@ function createUrlHandler(definition) {
 
   const parseQuery = flow([
     getNotEmpty,
-    normalizeObj(mapValues(definition, ({ fromQuery }) => fromQuery || identity)),
+    normalize(mapValues(definition, ({ fromQuery }) => fromQuery || identity)),
   ]);
 
   const stringifyQueryString = flow([
     getNotEmpty,
-    normalizeObj(mapValues(definition, ({ toQuery }) => toQuery || identity)),
+    normalize(mapValues(definition, ({ toQuery }) => toQuery || identity)),
   ]);
 
   return class UrlHandler extends Record(defaults) {

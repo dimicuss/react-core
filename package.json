@@ -1,5 +1,5 @@
 {
-  "name": "react-core",
+  "name": "react-core-utils",
   "version": "0.0.1",
   "description": "Simple react helper functions.",
   "main": "src/index.js",
@@ -8,7 +8,10 @@
     "constants": "constants"
   },
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "watch": "webpack -w",
+    "build": "cross-env NODE_ENV=production webpack",
+    "install": "build"
   },
   "repository": {
     "type": "git",
@@ -26,25 +29,30 @@
   },
   "homepage": "https://github.com/dimicuss/react-core#readme",
   "dependencies": {
-    "babel-preset-env": "^1.7.0",
     "connected-react-router": "^6.0.0",
     "immutable": "^4.0.0-rc.12",
     "invariant": "^2.2.4",
     "lodash": "^4.17.11",
+    "query-string": "^6.2.0",
     "react": "^16.6.3",
     "redux": "^4.0.1",
+    "redux-act": "^1.7.4",
     "redux-saga": "^0.16.2",
-    "rollup-plugin-babel": "3"
+    "reselect": "^4.0.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
-    "babel-preset-es2015-rollup": "^3.0.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "cross-env": "^5.2.0",
     "fs-readdir-recursive": "^1.1.0",
     "history": "^4.7.2",
     "react-redux": "^6.0.0",
     "react-router": "^4.3.1",
-    "rollup": "^0.67.4",
-    "rollup-plugin-commonjs": "^9.2.0",
-    "rollup-plugin-node-resolve": "^4.0.0"
+    "webpack": "^4.27.1",
+    "webpack-cli": "^3.1.2"
   }
 }
