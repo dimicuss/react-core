@@ -2,7 +2,7 @@ import { Record } from 'immutable';
 import { parse, stringify } from 'query-string';
 
 import pickBy from 'lodash/fp/pickBy';
-import { flow, negate, isEmpty, mapValues, identity, isNumber, cond, stubTrue } from 'lodash';
+import { flow, negate, isEmpty, mapValues, identity, isNumber, cond, stubTrue, curry } from 'lodash';
 
 import normalize from '../normalize';
 
@@ -20,7 +20,9 @@ const trulyIsEmpty = cond([
 const getNotEmpty = pickBy(negate(trulyIsEmpty));
 
 
-function createUrlHandler(definition) {
+function createUrlHandler(propsToPass, createExpansion) {
+  const definition = createExpansion(propsToPass);
+
   const defaults = mapValues(definition, ({ default: deflt }) => deflt === undefined ? null : deflt);
 
   const parseQuery = flow([
@@ -56,4 +58,4 @@ function createUrlHandler(definition) {
 }
 
 
-export default createUrlHandler;
+export default curry(createUrlHandler);

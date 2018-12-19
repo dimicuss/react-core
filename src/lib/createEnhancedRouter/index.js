@@ -20,17 +20,6 @@ const initialPreviousValues = {
 };
 
 
-function getReferrerHost() {
-  const { referrer } = document;
-
-  if (!referrer) { return ''; }
-
-  const url = document.createElement('a');
-  url.href = referrer;
-  return url.hostname;
-}
-
-
 export default function createEnhancedRouter(routes, history) {
   const routesSelectors = routes.map(route => ({
     route,
@@ -66,7 +55,6 @@ export default function createEnhancedRouter(routes, history) {
       previousRouteName,
       query: parse(location.search),
       currentHost: window.location.host,
-      previousHost: getReferrerHost(),
     };
   }
 

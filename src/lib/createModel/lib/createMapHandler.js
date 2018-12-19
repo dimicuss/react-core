@@ -30,7 +30,6 @@ export default function createMapNormalizer(config = {}) {
   return function normalizeMap(map = {}) {
     return paths.reduce((acc, path) => {
       const configFn = get(config, path);
-      console.log(acc, path, configFn(get(map, path), acc));
       return {
         ...acc,
         ...set({}, path, configFn(get(map, path), acc))

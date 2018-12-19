@@ -6,7 +6,7 @@ import { createReducer, createAction as createActionAct } from 'redux-act';
 
 import fpMap from 'lodash/fp/map';
 import fpPickBy from 'lodash/fp/pickBy';
-import { identity, flow, toPairs, values, fromPairs, mapValues, constant, curryRight, curry } from 'lodash';
+import { flow, toPairs, fromPairs, mapValues, curry } from 'lodash';
 
 
 const createAction = curry(function createAction(name, key) {
