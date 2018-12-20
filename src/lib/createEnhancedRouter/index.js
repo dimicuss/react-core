@@ -54,7 +54,6 @@ export default function createEnhancedRouter(routes, history) {
       previousPathName,
       previousRouteName,
       query: parse(location.search),
-      currentHost: window.location.host,
     };
   }
 
