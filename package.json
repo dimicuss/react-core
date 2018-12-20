@@ -9,8 +9,7 @@
   },
   "scripts": {
     "watch": "webpack -w",
-    "testbuild": "webpack",
-    "build": "cross-env NODE_ENV=production webpack"
+    "build": "webpack"
   },
   "repository": {
     "type": "git",
@@ -39,7 +38,8 @@
     "redux": "^4.0.0",
     "redux-act": "^1.4.0",
     "redux-saga": "^0.15.6",
-    "reselect": "^3.0.1"
+    "reselect": "^3.0.1",
+    "history": "^4.7.2"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
@@ -47,9 +47,7 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
-    "cross-env": "^5.2.0",
     "fs-readdir-recursive": "^1.1.0",
-    "history": "^4.7.2",
     "webpack": "^4.27.1",
     "webpack-cli": "^3.1.2"
   }

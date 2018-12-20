@@ -6,7 +6,6 @@ const { dependencies } = JSON.parse(fs.readFileSync('./package.json'));
 
 const srcName = 'src';
 const indexRegEx = /index\.js$/;
-const isProduction = process.env.NODE_ENV === 'production';
 
 
 const entry = readDirRecursive(srcName)
@@ -38,5 +37,5 @@ module.exports = {
   },
   resolve: { extensions: ['.js'] },
   externals,
-  mode: isProduction ? 'production' : 'development',
+  mode: 'development',
 };
