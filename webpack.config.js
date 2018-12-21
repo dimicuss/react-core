@@ -3,10 +3,8 @@ const path = require('path');
 const readDirRecursive = require('fs-readdir-recursive');
 const { dependencies } = JSON.parse(fs.readFileSync('./package.json'));
 
-
 const srcName = 'src';
 const indexRegEx = /index\.js$/;
-
 
 const entry = readDirRecursive(srcName)
   .filter(name => name.match(indexRegEx) !== null)

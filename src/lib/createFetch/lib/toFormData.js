@@ -20,13 +20,12 @@ const prepareNotArrays = flow([
 
 export default function toFormData(json) {
   const formData = new FormData();
-  const foo = [
+  const data = [
     ...prepareArrays(json),
     ...prepareNotArrays(json),
   ];
 
-  foo
-    .forEach(([key, value]) => formData.append(key, value));
+  data.forEach(([key, value]) => formData.append(key, value));
 
   return formData;
 }

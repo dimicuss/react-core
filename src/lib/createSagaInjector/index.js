@@ -2,22 +2,16 @@ import React from 'react';
 import { curry } from 'lodash';
 
 
-const DAEMON = '@@saga-injector/daemon';
-const ONCE_TILL_UNMOUNT = '@@saga-injector/once-till-unmount';
-const RESTART_ON_REMOUNT = '@@saga-injector/restart-on-remount';
-
-
-function createSagaInjector(store, { sagaName: key, saga, sagaMode = RESTART_ON_REMOUNT }, Descendant) {
+function createSagaInjector(store, { sagaName: key, saga }, Descendant) {
   class InjectSaga extends React.Component {
-    componentWillMount() {
+    componentDidMount() {
       const hasSaga = Reflect.has(store.injectedSagas, key);
 
-      if (!hasSaga || (hasSaga && sagaMode !== DAEMON && sagaMode !== ONCE_TILL_UNMOUNT)) {
-        store.injectedSagas[key] = { // eslint-disable-line no-param-reassign
+      if (!hasSaga) {
+        store.injectedSagas[key] = {
           saga,
-          mode: sagaMode,
           task: store.runSaga(saga)
-        };
+        }
       }
     }
 
@@ -25,7 +19,7 @@ function createSagaInjector(store, { sagaName: key, saga, sagaMode = RESTART_ON_
     componentWillUnmount() {
       if (Reflect.has(store.injectedSagas, key)) {
         const descriptor = store.injectedSagas[key];
-        if (descriptor.mode !== DAEMON) { descriptor.task.cancel(); }
+        descriptor.task.cancel()
       }
     }
 

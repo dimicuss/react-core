@@ -6,23 +6,6 @@ import { createReducer } from 'redux-act';
 import { LOCATION_CHANGE } from 'connected-react-router';
 
 
-/*
-"connected-react-router": "^4.3.0",
-  "history": "^4.7.2",
-  "immutable": "v3.8.2",
-  "invariant": "^2.2.2",
-  "lodash": "^4.17.10",
-  "query-string": "^5.0.0",
-  "react": "^16.7.0",
-  "react-redux": "^5.0.6",
-  "react-router": "^4.2.0",
-  "redux": "^4.0.1",
-  "redux-act": "^1.4.0",
-  "redux-saga": "^0.15.6",
-  "reselect": "^3.0.1"
-*/
-
-
 const getMatch = fpGet(['match']);
 const getParams = fpGet(['match', 'params']);
 const getSearch = fpGet(['location', 'search']);

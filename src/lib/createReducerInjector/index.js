@@ -6,7 +6,7 @@ import { isEmpty, isString, isFunction, curry } from 'lodash';
 
 function createReducerInjector(store, { reducerName, reducer }, Descendant) {
   class ReducerInjector extends React.PureComponent {
-    componentWillMount() {
+    componentDidMount() {
       invariant(
         isString(reducerName) && !isEmpty(reducerName) && isFunction(reducer),
         '(app/utils...) injectReducer: Expected `reducer` to be a reducer function'

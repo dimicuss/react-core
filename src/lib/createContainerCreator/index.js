@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars, prefer-arrow-callback  */
 import { fromJS } from 'immutable';
 import { connect } from 'react-redux';
 import { createStructuredSelector, createSelector } from 'reselect';
@@ -29,7 +28,11 @@ const defaultConfigCreator = () => ({});
 
 function createSagaWrapper(sagaCreator, params) {
   return function* sagaCaller() {
-    yield sagaCreator(params)();
+    try {
+      yield sagaCreator(params)()
+    } catch (e) {
+      console.error(e);
+    }
   };
 }
 
