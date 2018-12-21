@@ -2,7 +2,7 @@
   "name": "react-core-utils",
   "version": "0.0.7",
   "description": "Simple react helper functions.",
-  "main": "src/index.js",
+  "main": "./dist/index.js",
   "directories": {
     "lib": "lib",
     "constants": "constants"
