@@ -4,7 +4,7 @@ import fpMap from 'lodash/fp/map';
 import fpJoin from 'lodash/fp/join';
 import { put } from 'redux-saga/effects';
 
-import { reportOnUnAuth } from '../../../constants/actions';
+import { reportOnUnAuth } from '../../actions';
 
 
 const isStatus = statusCode => ({ result }) => statusCode === result.status;

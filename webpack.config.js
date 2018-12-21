@@ -1,14 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const readDirRecursive = require('fs-readdir-recursive');
 const { dependencies } = JSON.parse(fs.readFileSync('./package.json'));
-
-const srcName = 'src';
-const indexRegEx = /index\.js$/;
-
-const entry = readDirRecursive(srcName)
-  .filter(name => name.match(indexRegEx) !== null)
-  .reduce((acc, name) => { acc[name] = path.resolve(srcName, name); return acc; }, {});
 
 const externals = Object
   .keys(dependencies)
@@ -16,10 +8,10 @@ const externals = Object
 
 
 module.exports = {
-  entry,
+  entry: { index: path.resolve(__dirname, 'src', 'index.js') },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: '[name]',
+    filename: '[name].js',
     library: '[name]',
     libraryTarget: 'umd',
   },
@@ -33,7 +25,7 @@ module.exports = {
       }
     ],
   },
-  resolve: { extensions: ['.js'] },
   externals,
   mode: 'development',
+  resolve: { extensions: ['.js'] },
 };
