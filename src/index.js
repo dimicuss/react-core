@@ -1,4 +1,4 @@
-export actions from './actions';
+export * as actions from './actions';
 export createPath from './createPath';
 export createTitle from './createTitle';
 export createModel from './createModel';
