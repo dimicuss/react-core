@@ -28,19 +28,14 @@ const defaultConfigCreator = () => ({});
 
 function createSagaWrapper(sagaCreator, params) {
   return function* sagaCaller() {
-    try {
-      yield sagaCreator(params)()
-    } catch (e) {
-      console.error(e);
-    }
+    try { yield sagaCreator(params)() } catch (e) { console.error(e) }
   };
 }
 
 
 function createContainer(
   {
-    injectSaga,
-    injectReducer,
+    inject,
     ...otherProps
   },
   {
@@ -92,17 +87,14 @@ function createContainer(
     const saga = createSagaWrapper(createSaga, { actions: handledActions, selectors, params, ...otherProps });
     const structuredSelectors = createStructuredSelector(selectors);
     const connector = connect(structuredSelectors, handledDispatchers);
-    const injectors = [
-      injectSaga({ sagaName: key, saga }),
-      injectReducer({ reducerName: key, reducer }),
-    ];
+    const injectors = inject({ name: key, saga, reducer });
 
-    const result = flow([connector, ...injectors]);
+    const result = flow([connector, injectors]);
 
     result.actions = handledActions;
     result.connector = connector;
     result.selectors = selectors;
-    result.injectors = flow(injectors);
+    result.injectors = injectors;
     result.propsConnector = connect(structuredSelectors);
     result.dispatchersConnector = connect(null, handledDispatchers);
 
