@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { dependencies } = JSON.parse(fs.readFileSync('./package.json'));
+const isProduction = process.env.NODE_ENV === 'production';
 
 const externals = Object
   .keys(dependencies)
@@ -26,6 +27,6 @@ module.exports = {
     ],
   },
   externals,
-  mode: 'development',
+  mode: isProduction ? 'production' : 'development',
   resolve: { extensions: ['.js'] },
 };
