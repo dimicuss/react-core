@@ -3,10 +3,11 @@ import { curry } from 'lodash';
 
 import { combineReducers } from 'redux';
 
+/* eslint-disable no-param-reassign, react/no-did-mount-set-state, no-console */
 
 
 function createInjector(store, { name, saga, reducer }, Descendant) {
-  class Inject extends React.Component {
+  class Inject extends React.PureComponent {
     state = {
       passRendering: false,
     };
@@ -14,7 +15,7 @@ function createInjector(store, { name, saga, reducer }, Descendant) {
 
     componentDidMount() {
       if (!name) {
-        console.info('Name is not specified');
+        console.info('Name is not specified!');
       }
 
 
@@ -26,8 +27,8 @@ function createInjector(store, { name, saga, reducer }, Descendant) {
       }
 
 
-      if (!Reflect.has(store.injectedSagas, name) && saga) {
-        store.injectedSagas[name] = { saga, task: store.runSaga(saga) }
+      if (saga) {
+        this.sagaTask = store.runSaga(saga);
       } else {
         console.info('Saga is not specified');
       }
@@ -38,9 +39,8 @@ function createInjector(store, { name, saga, reducer }, Descendant) {
 
 
     componentWillUnmount() {
-      if (Reflect.has(store.injectedSagas, name)) {
-        const descriptor = store.injectedSagas[name];
-        descriptor.task.cancel()
+      if (saga) {
+        this.sagaTask.cancel();
       }
     }
 

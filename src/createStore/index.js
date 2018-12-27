@@ -15,7 +15,6 @@ export default function createStore(connectors, middlewares, initialState = {}) 
 
   store.runSaga = sagaMiddleware.run;
   store.injectedReducers = {};
-  store.injectedSagas = {};
 
   return store;
 }

@@ -9,3 +9,4 @@ export createInjector from './createInjector';
 export createEnhancedRouter from './createEnhancedRouter';
 export createContainerCreator from './createContainerCreator';
 export createUrlHandlerCreator from './createUrlHandler';
+export normalize from './normalize';
