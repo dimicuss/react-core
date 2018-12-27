@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { dependencies } = JSON.parse(fs.readFileSync('./package.json'));
 const isProduction = process.env.NODE_ENV === 'production';
+const TerserPlugin = require('terser-webpack-plugin');
 
 const externals = Object
   .keys(dependencies)
@@ -25,6 +26,14 @@ module.exports = {
         exclude: /node_modules/,
       }
     ],
+  },
+  optimization: {
+    minimizer: [new TerserPlugin({
+      terserOptions: {
+        keep_fnames: true,
+        exclude: /node_modules/,
+      },
+    })],
   },
   externals,
   mode: isProduction ? 'production' : 'development',
