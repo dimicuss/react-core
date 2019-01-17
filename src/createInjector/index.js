@@ -1,7 +1,8 @@
 import React from 'react';
 import { curry } from 'lodash';
-
 import { combineReducers } from 'redux';
+import hoistNonReactStatics from 'hoist-non-react-statics';
+
 
 /* eslint-disable no-param-reassign, react/no-did-mount-set-state, no-console */
 
@@ -13,9 +14,13 @@ function createInjector(store, { name, saga, reducer }, Descendant) {
     };
 
 
+    sagaTask = null;
+
+
     componentDidMount() {
       if (!name) {
         console.info('Name is not specified!');
+        return;
       }
 
 
@@ -23,14 +28,14 @@ function createInjector(store, { name, saga, reducer }, Descendant) {
         store.injectedReducers[name] = reducer;
         store.replaceReducer(combineReducers(store.injectedReducers));
       } else {
-        console.info('Saga is not specified');
+        console.info('Reducer is not injected!');
       }
 
 
       if (saga) {
         this.sagaTask = store.runSaga(saga);
       } else {
-        console.info('Saga is not specified');
+        console.info('Saga is not injected!');
       }
 
 
@@ -39,7 +44,7 @@ function createInjector(store, { name, saga, reducer }, Descendant) {
 
 
     componentWillUnmount() {
-      if (saga) {
+      if (saga && name) {
         this.sagaTask.cancel();
       }
     }
@@ -49,6 +54,9 @@ function createInjector(store, { name, saga, reducer }, Descendant) {
       return this.state.passRendering ? <Descendant {...this.props} /> : null;
     }
   }
+
+
+  hoistNonReactStatics(Inject, Descendant);
 
 
   return Inject;

@@ -1,5 +1,6 @@
 import React from 'react';
 import { curry } from 'lodash';
+import hoistNonReactStatics from 'hoist-non-react-statics';
 
 
 function createWrapper(Wrapper, props, Descendant) {
@@ -9,7 +10,7 @@ function createWrapper(Wrapper, props, Descendant) {
     }
   }
 
-  return WrapperInvoker;
+  return hoistNonReactStatics(WrapperInvoker, Descendant);
 }
 
 
