@@ -10,7 +10,9 @@ function createWrapper(Wrapper, props, Descendant) {
     }
   }
 
-  return hoistNonReactStatics(WrapperInvoker, Descendant);
+  hoistNonReactStatics(WrapperInvoker, Descendant);
+
+  return WrapperInvoker;
 }
 
 

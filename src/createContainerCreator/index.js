@@ -5,11 +5,13 @@ import { createReducer, createAction as createActionAct } from 'redux-act';
 
 import fpMap from 'lodash/fp/map';
 import fpPickBy from 'lodash/fp/pickBy';
-import { flow, toPairs, fromPairs, mapValues, curry } from 'lodash';
+import { flow, toPairs, fromPairs, mapValues, curry, uniqueId, constant } from 'lodash';
+
+import { registry } from '../registry';
 
 
 const createAction = curry(function createAction(name, key) {
-  return createActionAct(`${key}--${name}`);
+  return createActionAct(`${key}|${name}`);
 });
 
 const createDefaultHandler = key => (state, payload) => state.set(key, payload);
@@ -26,80 +28,68 @@ const defaultSagaReturner = () => () => {};
 const defaultConfigCreator = () => ({});
 
 
-function createSagaWrapper(sagaCreator, params) {
-  return function* sagaCaller() {
-    try { yield sagaCreator(params)() } catch (e) { console.error(e) }
-  };
+function createActions(names, key) {
+  return names.reduce((acc, name) => {
+    acc[name] = createAction(name, key);
+    return acc;
+  }, {});
 }
 
 
-function createContainer(
-  {
-    inject,
-    ...otherProps
-  },
+function createContainerCreator(
+  props,
   {
     actions = [],
     createSaga = defaultSagaReturner,
     createConfig = defaultConfigCreator,
-  }
+  },
+  { key, params = {} }
 ) {
-  return function addKey(key, params = {}) {
-    const baseSelector = state => state[key] || fromJS({ [key]: {} });
-    const clearStateKey = `${key}ClearState`;
-    const clearStateAction = clearState(key);
+  const baseSelector = state => state[key] || fromJS({ [key]: {} });
+  const clearStateKey = `${key}ClearState`;
+  const clearStateAction = clearState(key);
 
-    const keyedActions = actions.reduce((acc, actionName) => {
-      acc[actionName] = createAction(actionName)(key);
-      return acc;
-    }, {});
+  const handledActions = {
+    ...createActions(actions, key),
+    clearState: clearStateAction,
+  };
 
-    const handledActions = {
-      ...keyedActions,
-      clearState: clearStateAction,
-    };
+  const {
+    properties = {},
+    dispatchers = {},
+    additionalReducers = {},
+    additionalSelectors = {},
+  } = createConfig({ actions: handledActions, params, ...props });
 
-    const {
-      properties = {},
-      dispatchers = {},
-      additionalReducers = {},
-      additionalSelectors = {},
-    } = createConfig({ actions: handledActions, params, ...otherProps });
+  const initialState = fromJS(mapValues(properties, getInitial));
+  const handledDispatchers = dispatch => mapValues({
+    ...dispatchers,
+    [clearStateKey]: clearStateAction,
+  }, action => (...rest) => dispatch(action(...rest)));
 
+  const selectors = {
+    ...mapValues(properties, (property, propKey) => state => baseSelector(state).get(propKey)),
+    ...mapValues(additionalSelectors, selector => createSelector(baseSelector, selector)),
+  };
 
-    const initialState = fromJS(mapValues(properties, getInitial));
-    const handledDispatchers = dispatch => mapValues({
-      ...dispatchers,
-      [clearStateKey]: clearStateAction,
-    }, action => (...rest) => dispatch(action(...rest)));
+  const reducer = createReducer({
+    ...getReducers(properties),
+    ...additionalReducers,
+    [clearStateAction]: constant(initialState),
+  }, initialState);
 
-    const selectors = {
-      ...mapValues(properties, (property, propKey) => state => baseSelector(state).get(propKey)),
-      ...mapValues(additionalSelectors, selector => createSelector(baseSelector, selector)),
-    };
+  const saga = createSaga({ actions: handledActions, selectors, registry, params, ...props });
+  const structuredSelectors = createStructuredSelector(selectors);
 
-    const reducer = createReducer({
-      ...getReducers(properties),
-      ...additionalReducers,
-      [clearStateAction]: state => initialState,
-    }, initialState);
-
-    const saga = createSagaWrapper(createSaga, { actions: handledActions, selectors, params, ...otherProps });
-    const structuredSelectors = createStructuredSelector(selectors);
-    const connector = connect(structuredSelectors, handledDispatchers);
-    const injectors = inject({ name: key, saga, reducer });
-
-    const result = flow([connector, injectors]);
-
-    result.actions = handledActions;
-    result.connector = connector;
-    result.selectors = selectors;
-    result.injectors = injectors;
-    result.propsConnector = connect(structuredSelectors);
-    result.dispatchersConnector = connect(null, handledDispatchers);
-
-    return result;
+  return {
+    saga,
+    reducer,
+    selectors,
+    props: connect(structuredSelectors),
+    actions: handledActions,
+    connector: connect(structuredSelectors, handledDispatchers),
+    dispatchers: connect(null, handledDispatchers),
   };
 }
 
-export default curry(createContainer);
+export default curry(createContainerCreator);
