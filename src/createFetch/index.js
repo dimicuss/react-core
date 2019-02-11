@@ -3,24 +3,14 @@ import { stringify } from 'query-string';
 import { cond, flow } from 'lodash';
 
 
-import toFormData from './lib/toFormData';
 import removeNulls from './lib/removeNulls';
 import createFetchErrorHandler from './lib/createFetchErrorHandler';
-
-
-const commonFetchOptions = {
-  credentials: 'same-origin',
-  headers: {
-    accept: 'application/json',
-    'x-requested-With': 'XMLHttpRequest',
-  },
-};
 
 const getType = 'GET';
 const postType = 'POST';
 
-const get = (url, options = {}) => fetch(url, { method: getType, ...commonFetchOptions, ...options });
-const post = (url, options = {}) => fetch(url, { method: postType, ...commonFetchOptions, ...options });
+const get = (url, options = {}) => fetch(url, { method: getType, ...options });
+const post = (url, options = {}) => fetch(url, { method: postType, ...options });
 
 
 export default cond([
@@ -35,8 +25,14 @@ export default cond([
   [
     ({ type }) => type === postType,
     ({ url }) => function* postFetch(data) {
-      const handledData = flow([removeNulls, toFormData])(data);
-      return yield flow([post, createFetchErrorHandler, call])(url, { body: handledData });
+      const handledData = flow([removeNulls, JSON.stringify])(data);
+      return yield flow([post, createFetchErrorHandler, call])(url, {
+        body: handledData,
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        }
+      });
     }
   ],
 ]);
