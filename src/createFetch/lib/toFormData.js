@@ -1,6 +1,13 @@
-import { isArray, toPairs, flow } from 'lodash';
+import { isArray, toPairs, flow, isPlainObject } from 'lodash';
 import fpReduce from 'lodash/fp/reduce';
 import fpPickBy from 'lodash/fp/pickBy';
+
+
+function stringify(item) {
+  return isPlainObject(item)
+    ? JSON.stringify(item)
+    : item;
+}
 
 
 const prepareArrays = flow([
@@ -8,7 +15,7 @@ const prepareArrays = flow([
   toPairs,
   fpReduce((acc, [key, array]) => ([
     ...acc,
-    ...array.map(item => [`${key}[]`, item])
+    ...array.map(item => [`${key}[]`, stringify(item)])
   ]), []),
 ]);
 
@@ -25,7 +32,7 @@ export default function toFormData(json) {
     ...prepareNotArrays(json),
   ];
 
-  data.forEach(([key, value]) => formData.append(key, value));
+  data.forEach(([key, value]) => formData.append(key, stringify(value)));
 
   return formData;
 }
