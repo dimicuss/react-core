@@ -1,10 +1,10 @@
-import { cond, constant, overSome, toPairs, overEvery, stubTrue, flow } from 'lodash';
 import fpGet from 'lodash/fp/get';
 import fpMap from 'lodash/fp/map';
 import fpJoin from 'lodash/fp/join';
 import { put } from 'redux-saga/effects';
+import { cond, constant, overSome, toPairs, overEvery, stubTrue, flow } from 'lodash';
 
-import { reportOnUnAuth } from '../../actions';
+import { reportOnFetchError } from '../../actions';
 
 
 const isStatus = statusCode => ({ result }) => statusCode === result.status;
@@ -57,19 +57,15 @@ const getMessage = cond([
 export default function createFetchErrorHandler(fetchPromise) {
   return function* handleFetchError() {
     const result = yield fetchPromise;
+    const { status } = result;
     let json;
-
 
     try { json = yield result.json(); } catch (e) { json = {}; }
 
-
-    if (result.status === 403) {
-      yield put(reportOnUnAuth());
-    }
-
-
-    if (result.status !== 200) {
-      throw new Error(getMessage({ result, json }));
+    if (status !== 200) {
+      const message = getMessage({ result, json });
+      yield put(reportOnFetchError({ status, message }));
+      throw new Error(message);
     }
 
     return json;

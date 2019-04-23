@@ -1,17 +1,16 @@
-export createConnectorHoc from './createConnectorHoc';
-export createContainerCreator from './createContainerCreator';
-export createContainerHoc from './createContainerHoc';
-export createEnhancedRouter from './createEnhancedRouter';
+export normalize from './normalize';
+export createPath from './createPath';
 export createFetch from './createFetch';
 export createModel from './createModel';
-export createPath from './createPath';
-export createRoutes from './createRoutes';
 export createStore from './createStore';
 export createTitle from './createTitle';
 export createTypes from './createTypes';
-export createUrlHandler from './createUrlHandler';
+export createRoutes from './createRoutes';
 export createWrapper from './createWrapper';
-export normalize from './normalize';
+export createUrlHandler from './createUrlHandler';
+export createConnectorHoc, { connectorTypes } from './createConnectorHoc';
+export createContainerHoc from './createContainerHoc';
+export createContainerCreator from './createContainerCreator';
 
 export * as actions from './actions';
 export * as registry from './registry';

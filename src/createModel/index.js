@@ -15,7 +15,7 @@ const createModel = cond([
   [
     isObject,
     (type, additional) => {
-      const { expansions, ...rest } = additional;
+      const { routeExpansions, entityExpansions } = additional;
       const { properties, entity, routeEntity } = type;
       const propCreators = mapValues(properties, property => createModel(property, additional));
 
@@ -23,9 +23,10 @@ const createModel = cond([
         propCreators,
         type,
         createRecordModel({
-          ...merge({},
-            get(expansions, entity, stubObject)(rest),
-            get(expansions, routeEntity, stubObject)(rest)
+          ...merge(
+            {},
+            get(entityExpansions, entity, stubObject),
+            get(routeExpansions, routeEntity, stubObject)
           ),
           type,
           propCreators

@@ -1,9 +1,9 @@
 import fpJoin from 'lodash/fp/join';
-import fpFilter from 'lodash/fp/filter'
-import { pickBy, flow } from 'lodash';
+import fpFilter from 'lodash/fp/filter';
+import { flow } from 'lodash';
 
 
-export let containerRegistry = {};
+const containerRegistry = {};
 
 
 export const createKey = flow([
@@ -14,12 +14,12 @@ export const createKey = flow([
 
 
 export function addContainer(key, container) {
-  containerRegistry = { ...containerRegistry, [key]: container };
+  containerRegistry[key] = container;
 }
 
 
 export function removeContainer(keyToRemove) {
-  containerRegistry = pickBy(containerRegistry, (value, key) => key !== keyToRemove);
+  containerRegistry[keyToRemove] = undefined;
 }
 
 
@@ -31,3 +31,5 @@ export function getContainer(...key) {
 export function getContainers() {
   return containerRegistry;
 }
+
+export { containerRegistry };

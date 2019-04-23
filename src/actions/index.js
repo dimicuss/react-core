@@ -1,4 +1,3 @@
 import { createAction } from 'redux-act';
 
-
-export const reportOnUnAuth = createAction('reportOnUnAuth');
+export const reportOnFetchError = createAction('reportOnFetchError');

@@ -98,6 +98,7 @@ export default function createTypes(api, entities) {
 
 
   return mapValues(api, route => ({
+    path: route.path,
     request: route.request,
     response: createType(route.response),
     handleRequest: partial(handleRequest, route.request),

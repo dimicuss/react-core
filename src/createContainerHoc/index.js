@@ -1,21 +1,22 @@
-import React from 'react';
-import { combineReducers } from 'redux';
-import hoistNonReactStatics from 'hoist-non-react-statics';
-import { string, object, func } from 'prop-types';
-import { uniqueId, curry, pickBy, join } from 'lodash';
+/* eslint-disable react/no-did-mount-set-state */
 
-import createWrapper from '../createWrapper'
+import React from 'react';
+import { curry } from 'lodash';
+import { combineReducers } from 'redux';
+import { string, object, func } from 'prop-types';
+
+import createWrapper from '../createWrapper';
 import { addContainer, removeContainer, createKey } from '../registry';
 
 
 class ContainerHoc extends React.PureComponent {
   state = {
     passRendering: false,
-  }
+  };
 
 
   componentDidMount() {
-    const { name, store, keyGetter, Descendant, createContainer, params, } = this.props;
+    const { name, store, keyGetter, Descendant, createContainer, params, ...otherProps } = this.props;
     const key = createKey(keyGetter(this.props), name);
     const container = createContainer({ key, params });
     const { saga, reducer } = container;
@@ -25,7 +26,7 @@ class ContainerHoc extends React.PureComponent {
     store.replaceReducer(combineReducers(store.injectedReducers));
 
     this.key = key;
-    this.sagaTask = store.runSaga(saga);
+    this.sagaTask = store.runSaga(saga, otherProps);
     this.container = container;
     this.setState({ passRendering: true });
   }
@@ -37,7 +38,6 @@ class ContainerHoc extends React.PureComponent {
 
     removeContainer(key);
     store.dispatch(container.actions.clearState());
-
     this.sagaTask.cancel();
   }
 
@@ -62,14 +62,15 @@ ContainerHoc.propTypes = {
 
 ContainerHoc.defaultProps = {
   params: {},
-}
+};
 
 
 const wrapper = createWrapper(ContainerHoc);
 
 
-export default curry(
-  function passParams(commonParams, containerParams) {
-    return wrapper({ ...commonParams, ...containerParams });
-  }
-);
+function passParams(commonParams, containerParams) {
+  return wrapper({ ...commonParams, ...containerParams });
+}
+
+
+export default curry(passParams);

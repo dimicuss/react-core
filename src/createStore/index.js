@@ -6,7 +6,7 @@ import { createStore as createReduxStore, applyMiddleware } from 'redux';
 const sagaMiddleware = createSagaMiddleware();
 
 
-export default function createStore(connectors, middlewares, initialState = {}) {
+export default function createStore(connectors = [], middlewares = [], initialState = {}) {
   const store = createReduxStore(
     flow(connectors)(identity),
     initialState,

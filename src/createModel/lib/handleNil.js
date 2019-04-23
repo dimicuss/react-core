@@ -3,6 +3,7 @@ import { isNil, tail } from 'lodash';
 
 const typeValueMap = {
   array: [],
+  date: '',
   object: {},
   string: '',
   integer: null,
