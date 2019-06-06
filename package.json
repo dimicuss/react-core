@@ -2,11 +2,7 @@
   "name": "react-core-utils",
   "version": "0.0.7",
   "description": "Simple react helper functions.",
-  "main": "./dist/index.js",
-  "directories": {
-    "lib": "lib",
-    "constants": "constants"
-  },
+  "main": "./es/index.js",
   "scripts": {
     "watch": "webpack -w",
     "build": "cross-env NODE_ENV=production webpack"
