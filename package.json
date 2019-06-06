@@ -3,10 +3,6 @@
   "version": "0.0.7",
   "description": "Simple react helper functions.",
   "main": "./es/index.js",
-  "scripts": {
-    "watch": "webpack -w",
-    "build": "cross-env NODE_ENV=production webpack"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dimicuss/react-core.git"
@@ -32,17 +28,5 @@
     "redux-act": "^1.7.4",
     "redux-saga": "^0.16.2",
     "reselect": "^4.0.0"
-  },
-  "devDependencies": {
-    "babel-core": "^6.26.3",
-    "babel-loader": "^7.1.2",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-react": "^6.24.1",
-    "babel-preset-stage-0": "^6.24.1",
-    "cross-env": "^5.2.0",
-    "fs-readdir-recursive": "^1.1.0",
-    "terser-webpack-plugin": "^1.2.1",
-    "webpack": "^4.27.1",
-    "webpack-cli": "^3.1.2"
   }
 }
