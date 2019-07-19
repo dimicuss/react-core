@@ -11,5 +11,6 @@ export createContainerHoc, { Context } from './createContainerHoc';
 export createContainerCreator from './createContainerCreator';
 export createConnectorHoc, { connectorTypes } from './createConnectorHoc';
 export createFetch, { resetCommonFetchOptions } from './createFetch';
+export readContext from './readContext';
 
 export * as actions from './actions';
