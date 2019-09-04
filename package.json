@@ -20,7 +20,7 @@
   "homepage": "https://github.com/dimicuss/react-core#readme",
   "dependencies": {
     "immutable": "~3.7.4",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.14",
     "query-string": "^6.2.0",
     "react": "^16.8.6",
     "react-redux": "^7.0.3",
