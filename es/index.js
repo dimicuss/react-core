@@ -13,4 +13,6 @@ export createConnectorHoc, { connectorTypes } from './createConnectorHoc';
 export createFetch, { resetCommonFetchOptions } from './createFetch';
 export readContext from './readContext';
 
+console.log('sdasd');
+
 export * as actions from './actions';
