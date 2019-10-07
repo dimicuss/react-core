@@ -4,8 +4,8 @@ import partial from 'lodash/partial';
 import mapValues from 'lodash/mapValues'
 
 
-function createPropertyModel(modelCreator, data, key) {
-  return modelCreator(data[key]);
+function createPropertyModel(modelCreator, data) {
+  return modelCreator(data);
 }
 
 
