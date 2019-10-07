@@ -35,7 +35,7 @@ const createActions = (names, key) => names.reduce((acc, name) => {
 
 
 function createContainerCreator(
-  props,
+  baseProps,
   {
     actions = [],
     createSaga = defaultSagaReturner,
@@ -57,7 +57,7 @@ function createContainerCreator(
     dispatchers = {},
     additionalReducers = {},
     additionalSelectors = {},
-  } = createConfig({ actions: handledActions, ...props });
+  } = createConfig({ actions: handledActions, ...baseProps });
 
   const initialState = fromJS(mapValues(properties, getInitial));
 
@@ -72,7 +72,7 @@ function createContainerCreator(
     [clearStateAction]: constant(initialState),
   }, initialState);
 
-  const saga = createSaga({ actions: handledActions, selectors, ...otherProps, ...props });
+  const saga = createSaga({ actions: handledActions, selectors, ...otherProps, ...baseProps });
 
   return {
     saga,
@@ -83,4 +83,4 @@ function createContainerCreator(
   };
 }
 
-export default curry(createContainerCreator);
+export default curry(createContainerCreator, 3);

@@ -1,8 +1,8 @@
-import fpMapValues from 'lodash/fp/mapValues';
 import flow from 'lodash/flow';
 import curry from 'lodash/curry';
 import identity from 'lodash/identity';
 import mapValues from 'lodash/mapValues';
+import fpMapValues from 'lodash/fp/mapValues';
 
 
 const createNormalizers = flow([

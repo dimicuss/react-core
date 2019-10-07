@@ -33,13 +33,11 @@ function collectPaths(object) {
 export default function createMapNormalizer(config = {}) {
   const paths = collectPaths(config);
 
-  return function normalizeMap(map = {}) {
+  return function normalizeMap(data = {}, initial = data) {
     return paths.reduce((acc, path) => {
       const configFn = get(config, path);
-      return {
-        ...acc,
-        ...set({}, path, configFn(get(map, path), acc))
-      };
-    }, map);
+      set(acc, path, configFn(get(data, path)));
+      return acc;
+    }, initial);
   };
 }
