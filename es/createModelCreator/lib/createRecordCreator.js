@@ -1,7 +1,10 @@
 import flow from 'lodash/flow';
 import reduce from 'lodash/reduce';
+import isArray from 'lodash/isArray';
 import partial from 'lodash/partial';
 import mapValues from 'lodash/mapValues';
+import isPlainObject from 'lodash/isPlainObject';
+
 import { Record } from 'immutable';
 
 import createMapHandler from '../../createMapHandler';
@@ -23,7 +26,28 @@ function superSetValue(modelCreators, result, value, key) {
 }
 
 
-export default function createRecordCreator({ preHandlers = {}, postHandlers = {}, modelCreators = {}, extenders = {}, methods = {}, properties }) {
+function setModelValue(getNextValue, acc, value, key) {
+  const nextValue = getNextValue(acc.get(key), value);
+  return acc.set(key, nextValue);
+}
+
+
+function setDeep(model, data) {
+  console.log(data);
+  return isPlainObject(data) || isArray(data)
+    ? reduce(data, partial(setModelValue, setDeep), model)
+    : data;
+}
+
+
+export default function createRecordCreator({
+  methods = {},
+  extenders = {},
+  properties = {},
+  preHandlers = {},
+  postHandlers = {},
+  modelCreators = {},
+}) {
   const possibleFields = mapValues({ ...properties, _extenders: undefined }, stubUndefined);
 
   const preHandle = createMapHandler(preHandlers);
@@ -34,8 +58,12 @@ export default function createRecordCreator({ preHandlers = {}, postHandlers = {
   const extend = createMapHandler(extenders);
 
   class Model extends Record(possibleFields) {
-    superMergeDeep(data) {
+    superSetDeep(data) {
       return reduce(data, partial(superSetValue, modelCreators), this);
+    }
+
+    setDeep(data) {
+      return setDeep(this, data);
     }
   }
 

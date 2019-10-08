@@ -14,7 +14,6 @@ import createPropertyModelCreators from './lib/createPropertyModelCreators';
 function createModelCreator(additionalConfig, config) {
   const handledConfig = isPlainObject(config) ? config : { type: config };
   const { type } = handledConfig;
-  // console.log(handledConfig);
 
 
   if (type === 'object') {
