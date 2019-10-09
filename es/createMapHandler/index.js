@@ -1,43 +1,19 @@
-import get from 'lodash/get';
-import set from 'lodash/set';
-import keys from 'lodash/keys';
-import concat from 'lodash/concat';
-import negate from 'lodash/negate';
-import isObject from 'lodash/isObject';
-import isFunction from 'lodash/isFunction';
+import curry from 'lodash/curry';
+import clone from 'lodash/clone';
+import isArray from 'lodash/isArray';
+import isPlainObject from 'lodash/isPlainObject';
 
 
-function collectPaths(object) {
-  const pathsArray = [];
+function createMapHandler(config, data = {}, result = clone(data)) {
+  if (isPlainObject(config) || isArray(config)) {
+    for (let key in config) {
+      result[key] = createMapHandler(config[key], data[key]);
+    }
+    return result;
+  }
 
-  (function fn(obj, foundKeys = []) {
-    const objKeys = keys(obj);
-
-    objKeys.forEach((key) => {
-      const nextObject = obj[key];
-      const nextFoundKeys = concat(foundKeys, key);
-
-      if (isObject(nextObject) && negate(isFunction)(nextObject)) {
-        pathsArray.push(nextFoundKeys);
-        fn(nextObject, nextFoundKeys);
-      } else {
-        pathsArray.push(nextFoundKeys);
-      }
-    });
-  }(object));
-
-  return pathsArray;
+  return config(data);
 }
 
 
-export default function createMapNormalizer(config = {}) {
-  const paths = collectPaths(config);
-
-  return function normalizeMap(data = {}, initial = data) {
-    return paths.reduce((acc, path) => {
-      const configFn = get(config, path);
-      set(acc, path, configFn(get(data, path)));
-      return acc;
-    }, initial);
-  };
-}
+export default curry(createMapHandler, 2);

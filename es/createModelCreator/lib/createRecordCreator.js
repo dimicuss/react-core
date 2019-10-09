@@ -3,9 +3,8 @@ import reduce from 'lodash/reduce';
 import isArray from 'lodash/isArray';
 import partial from 'lodash/partial';
 import mapValues from 'lodash/mapValues';
-import isPlainObject from 'lodash/isPlainObject';
-
 import { Record } from 'immutable';
+import isPlainObject from 'lodash/isPlainObject';
 
 import createMapHandler from '../../createMapHandler';
 
@@ -33,7 +32,6 @@ function setModelValue(getNextValue, acc, value, key) {
 
 
 function setDeep(model, data) {
-  console.log(data);
   return isPlainObject(data) || isArray(data)
     ? reduce(data, partial(setModelValue, setDeep), model)
     : data;
