@@ -23,14 +23,14 @@ class ContainerHoc extends React.PureComponent {
     const { containers } = this.context;
     const { name, store, Descendant, createContainer, params, ...otherProps } = this.props;
     const key = uniqueId();
-    const container = createContainer({ key, name, params, containers });
+    const container = createContainer({ key, name, params, containers, ...otherProps });
     const { saga, reducer } = container;
 
     store.injectedReducers = { ...store.injectedReducers, [key]: reducer };
     store.replaceReducer(combineReducers(store.injectedReducers));
 
     this.newContext = { containers: { ...containers, [name]: container } };
-    this.sagaTask = store.runSaga(saga, otherProps);
+    this.sagaTask = store.runSaga(saga);
     this.container = container;
     this.setState({ mounted: true });
   }
