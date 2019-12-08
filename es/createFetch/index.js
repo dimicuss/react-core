@@ -10,14 +10,8 @@ import shallowRemoveNulls from './lib/shallowRemoveNulls';
 import createFetchErrorHandler from './lib/createFetchErrorHandler';
 
 
-let commonFetchOptions = {
-  credentials: 'same-origin',
-  headers: {
-    accept: 'application/json',
-    'cache-control': 'no-cache',
-    'x-requested-With': 'XMLHttpRequest',
-  },
-};
+let commonFetchOptions = {};
+
 
 const fetcher = flow([
   (url, options) => fetch(url, merge({}, commonFetchOptions, options)),

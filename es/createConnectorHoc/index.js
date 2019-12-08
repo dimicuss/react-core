@@ -74,7 +74,10 @@ ConnectorHoc.contextType = Context;
 
 
 const wrapper = createWrapper(ConnectorHoc);
-
 export const connectorTypes = keys(connectors);
 
-export default curry((commonParams, connectorParams) => wrapper({ ...commonParams, ...connectorParams }), 2);
+export default curry(
+  function createConnectorHoc(commonParams, connectorParams) {
+    return wrapper({ ...commonParams, ...connectorParams });
+  }
+);

@@ -16,21 +16,21 @@ const Context = React.createContext({
 class ContainerHoc extends React.PureComponent {
   state = {
     mounted: false,
-  }
+  };
 
 
   componentDidMount() {
     const { containers } = this.context;
-    const { name, store, Descendant, createContainer, params, ...otherProps } = this.props;
+    const { name, store, Descendant, createContainer, ...otherProps } = this.props;
     const key = uniqueId();
-    const container = createContainer({ key, name, params, containers, ...otherProps });
+    const container = createContainer({ key, name, containers });
     const { saga, reducer } = container;
 
     store.injectedReducers = { ...store.injectedReducers, [key]: reducer };
     store.replaceReducer(combineReducers(store.injectedReducers));
 
     this.newContext = { containers: { ...containers, [name]: container } };
-    this.sagaTask = store.runSaga(saga);
+    this.sagaTask = store.runSaga(saga, otherProps);
     this.container = container;
     this.setState({ mounted: true });
   }
@@ -60,12 +60,6 @@ ContainerHoc.propTypes = {
   store: object.isRequired,
   Descendant: func.isRequired,
   createContainer: func.isRequired,
-  params: object,
-};
-
-
-ContainerHoc.defaultProps = {
-  params: {},
 };
 
 
@@ -76,4 +70,9 @@ const wrapper = createWrapper(ContainerHoc);
 
 
 export { Context };
-export default curry((commonParams, containerParams) => wrapper({ ...commonParams, ...containerParams }), 2);
+export default curry(
+  function createContainerHoc(commonParams, containerParams) {
+    return wrapper({ ...commonParams, ...containerParams });
+  }
+)
+
