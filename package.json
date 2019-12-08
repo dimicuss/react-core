@@ -1,11 +1,11 @@
 {
   "name": "react-core-utils",
   "version": "0.0.7",
-  "description": "Simple react helper functions.",
+  "description": "Function set for extensible react developing.",
   "main": "./es/index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dimicuss/react-core.git"
+    "url": "git+https://github.com/dimicuss/react-core-utils.git"
   },
   "keywords": [
     "react",
