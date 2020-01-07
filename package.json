@@ -2,7 +2,6 @@
   "name": "react-core-utils",
   "version": "0.0.7",
   "description": "Function set for extensible react developing.",
-  "main": "./es/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dimicuss/react-core-utils.git"
@@ -15,18 +14,14 @@
   "author": "dimicuss",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/dimicuss/react-core/issues"
+    "url": "https://github.com/dimicuss/react-core-utils/issues"
   },
-  "homepage": "https://github.com/dimicuss/react-core#readme",
+  "homepage": "https://github.com/dimicuss/react-core-utils#readme",
   "dependencies": {
-    "immutable": "~3.7.4",
-    "lodash": "^4.17.14",
-    "query-string": "^6.2.0",
-    "react": "16.8.3",
-    "react-redux": "^7.0.3",
-    "redux": "^4.0.1",
-    "redux-act": "^1.7.6",
-    "redux-saga": "^1.0.2",
-    "reselect": "^4.0.0"
+    "react": "^16.12.0",
+    "react-redux": "^7.1.3",
+    "redux": "^4.0.5",
+    "redux-act": "^1.7.7",
+    "redux-saga": "^1.1.3"
   }
 }
