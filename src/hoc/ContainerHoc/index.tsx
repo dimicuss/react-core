@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactReduxContext from 'react-redux/lib/components/Context';
 
-import ContextConsumerHoc from 'hoc/ContextConsumerHoc';
+import ContextConsumerHoc from '@/hoc/ContextConsumerHoc';
 
 
-import combineReducers from 'lib/combineReducers';
-import createWrappedHoc from 'lib/createWrappedHoc';
-import { runSaga, cancelSaga } from 'lib/rootSaga';
+import combineReducers from '@/lib/combineReducers';
+import createWrappedHoc from '@/lib/createWrappedHoc';
+import { runSaga, cancelSaga } from '@/lib/rootSaga';
 import createContainer, { Container } from './lib/createContainer';
 
 

@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import mapValues from 'lib/mapValues';
-import createHoc from 'lib/createHoc';
-import { ContainerContext } from 'hoc/ContainerHoc';
+import mapValues from '@/lib/mapValues';
+import createHoc from '@/lib/createHoc';
+import { ContainerContext } from '@/hoc/ContainerHoc';
 
 
 function callSelector(selector) {

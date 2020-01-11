@@ -5,10 +5,13 @@
     "jsx": "react",
     "allowJs": true,
     "target": "es5",
-    "lib": ["esnext"]
+    "lib": ["esnext"],
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": ["./*"]
+    }
   },
   "include": [
-    "lib/**/*",
     "src/**/*"
   ]
 }

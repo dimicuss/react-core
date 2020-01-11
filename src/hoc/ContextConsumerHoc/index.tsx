@@ -1,5 +1,5 @@
 import React from 'react';
-import createHoc from 'lib/createHoc';
+import createHoc from '@/lib/createHoc';
 
 
 
