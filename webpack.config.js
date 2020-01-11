@@ -3,7 +3,7 @@ const existsSync = require('./webpack/lib/existsSync');
 
 
 function createModuleEntry(module) {
-	return [module, path.resolve(module)];
+	return [module, path.resolve('src', module)];
 }
 
 

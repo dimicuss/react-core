@@ -5,7 +5,7 @@ import ContextConsumerHoc from '../ContextConsumerHoc';
 
 
 import combineReducers from '../../lib/combineReducers';
-import  createWrappedHoc from '../../lib/createWrappedHoc';
+import createWrappedHoc from '../../lib/createWrappedHoc';
 import { runSaga, cancelSaga } from '../../lib/rootSaga';
 import createContainer, { Container } from './lib/createContainer';
 
