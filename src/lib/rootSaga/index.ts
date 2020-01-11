@@ -29,10 +29,8 @@ function* handleRunSaga({ payload: runPayload }) {
 }
 
 
-function* rootSaga() {
+export { runSaga, cancelSaga };
+
+export default function* rootSaga() {
     yield takeEvery(runSaga, handleRunSaga);
 }
-
-
-export { runSaga, cancelSaga };
-export default rootSaga;

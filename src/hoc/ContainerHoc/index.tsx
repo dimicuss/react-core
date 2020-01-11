@@ -1,5 +1,5 @@
 import React from 'react';
-import { ReactReduxContext } from 'react-redux';
+import ReactReduxContext from 'react-redux/lib/components/Context';
 
 import ContextConsumerHoc from '../ContextConsumerHoc';
 
