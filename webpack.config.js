@@ -57,5 +57,9 @@ module.exports = {
 	],
 	resolve: {
 		extensions,
+		alias: {
+			lib: path.resolve('src', 'lib'),
+			hoc: path.resolve('src', 'hoc'),
+		}
 	}
 }

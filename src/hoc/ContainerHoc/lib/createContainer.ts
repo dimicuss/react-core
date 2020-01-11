@@ -1,8 +1,8 @@
 import { createAction as createActionAct } from 'redux-act';
 
-import compose from '../../../lib/compose';
-import mapValues from '../../../lib/mapValues';
-import fromEntries from '../../../lib/fromEntries';
+import compose from 'lib/compose';
+import mapValues from 'lib/mapValues';
+import fromEntries from 'lib/fromEntries';
 
 
 interface FunctionField {
