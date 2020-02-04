@@ -1,35 +1,17 @@
 const path = require('path');
-const existsSync = require('./webpack/lib/existsSync');
+const packageJSON = require('./package');
 
+const externals = Object.keys(packageJSON.dependencies);
 
-function createModuleEntry(module) {
-	return [module, path.resolve('src', module)];
-}
-
-
-const modules = [
-	'lib/combineReducers',
-	'lib/compose',
-	'lib/createHoc',
-	'lib/createWrappedHoc',
-	'lib/fromEntries',
-	'lib/mapValues',
-	'lib/passProps',
-	'lib/rootSaga',
-	'hoc/ContainerHoc',
-	'hoc/ConnectorHoc',
-	'hoc/ContextConsumerHoc'
-];
-
-const extensions = ['.ts', '.tsx', '.js'];
-const moduleEntries = modules.map(createModuleEntry);
-
+console.log(externals);
 
 module.exports = {
-	entry: Object.fromEntries(moduleEntries),
+	entry: {
+		index: path.resolve('src', 'index'),
+	},
 	output: {
-		filename: '[name].js',
-		path: __dirname,
+		path: path.resolve('dist'),
+		filename: '[name].js'
 	},
 	mode: process.env.NODE_ENV,
 	module: {
@@ -40,25 +22,11 @@ module.exports = {
 			}
 		]
 	},
-	externals: [
-		function excludeModules(context, request, callback) {
-			const resolvedPath = path.resolve(context, request);
-			
-			if (existsSync(resolvedPath, extensions)) {
-				if (resolvedPath.indexOf(context) > -1) {
-					callback()
-				} else {
-					callback(null, 'commonjs ' + request);
-				}
-			} else {
-				callback(null, 'commonjs ' + request);
-			}
-		}
-	],
 	resolve: {
-		extensions,
+		extensions: ['.ts', '.tsx', '.js'],
 		alias: {
 			'@': path.resolve('src'),
 		}
-	}
-}
+	},
+	externals,
+};

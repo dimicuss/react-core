@@ -2,8 +2,9 @@
   "name": "react-core-utils",
   "version": "0.0.7",
   "description": "Function set for extensible react developing.",
+  "main": "./dist/index.js",
   "scripts": {
-    "test": "cross-env NODE_ENV=development webpack-cli --display-error-details",
+    "develop-build": "cross-env NODE_ENV=development webpack-cli --display-error-details",
     "build": "cross-env NODE_ENV=production webpack-cli --display-error-details"
   },
   "repository": {
