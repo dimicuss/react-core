@@ -1,18 +1,5 @@
 const path = require('path');
-const packageJSON = require('./package');
-
-const externals = Object.keys(packageJSON.dependencies).flatMap((dependency) => {
-	return [
-		new RegExp(`^${dependency}$`),
-		new RegExp(`^${dependency}\/.+$`),
-	];
-});
-
-
-
-function testRequest(external) {
-	return external.test(this);
-}
+const nodeExternals = require('webpack-node-externals');
 
 
 module.exports = {
@@ -38,13 +25,5 @@ module.exports = {
 			'@': path.resolve('src'),
 		}
 	},
-	externals: [
-		function handleRequest(context, request, callback) {
-			if (externals.some(testRequest, request)) {
-				callback(null, `commonjs ${request}`);
-			} else {
-				callback();
-			}
-		}
-	]
+	externals: [nodeExternals()]
 };

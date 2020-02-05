@@ -10,7 +10,7 @@ import combineReducers from './lib/combineReducers';
 import createWrappedHoc from './lib/createWrappedHoc';
 
 
-export {
+const foo = {
     ContainerHoc,
     ConnectorHoc,
     ContextConsumer,
@@ -21,4 +21,7 @@ export {
     createHoc,
     combineReducers,
     createWrappedHoc,
-}
+};
+
+
+export default foo;
