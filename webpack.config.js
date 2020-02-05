@@ -10,7 +10,7 @@ module.exports = {
 		path: path.resolve('dist'),
 		filename: '[name].js',
 		library: 'react-core-utils',
-		libraryTarget: 'commonjs',
+		libraryTarget: 'umd',
 	},
 	mode: process.env.NODE_ENV,
 	module: {
