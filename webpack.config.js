@@ -2,8 +2,17 @@ const path = require('path');
 const packageJSON = require('./package');
 
 const externals = Object.keys(packageJSON.dependencies).flatMap((dependency) => {
-	return [dependency, new RegExp(`^${dependency}\/.+$`)];
+	return [
+		new RegExp(`^${dependency}$`),
+		new RegExp(`^${dependency}\/.+$`),
+	];
 });
+
+
+
+function testRequest(external) {
+	return external.test(this);
+}
 
 
 module.exports = {
@@ -29,5 +38,13 @@ module.exports = {
 			'@': path.resolve('src'),
 		}
 	},
-	externals,
+	externals: [
+		function handleRequest(context, request, callback) {
+			if (externals.some(testRequest, request)) {
+				callback(null, `commonjs ${request}`);
+			} else {
+				callback();
+			}
+		}
+	]
 };
