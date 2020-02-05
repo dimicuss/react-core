@@ -1,9 +1,10 @@
 const path = require('path');
 const packageJSON = require('./package');
 
-const externals = Object.keys(packageJSON.dependencies);
+const externals = Object.keys(packageJSON.dependencies).flatMap((dependency) => {
+	return [dependency, new RegExp(`^${dependency}\/.+$`)];
+});
 
-console.log(externals);
 
 module.exports = {
 	entry: {
