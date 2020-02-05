@@ -8,7 +8,9 @@ module.exports = {
 	},
 	output: {
 		path: path.resolve('dist'),
-		filename: '[name].js'
+		filename: '[name].js',
+		library: 'react-core-utils',
+		libraryTarget: 'commonjs',
 	},
 	mode: process.env.NODE_ENV,
 	module: {
@@ -25,4 +27,5 @@ module.exports = {
 			'@': path.resolve('src'),
 		}
 	},
+	externals: [nodeExternals()],
 };
