@@ -3,6 +3,7 @@ const nodeExternals = require('webpack-node-externals');
 
 
 module.exports = {
+	devtool: 'cheap-source-map',
 	entry: {
 		index: path.resolve('src', 'index'),
 	},
