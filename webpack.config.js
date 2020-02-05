@@ -25,5 +25,4 @@ module.exports = {
 			'@': path.resolve('src'),
 		}
 	},
-	externals: [nodeExternals()]
 };
