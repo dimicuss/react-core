@@ -1,5 +1,30 @@
 const path = require('path');
-const nodeExternals = require('webpack-node-externals');
+const { dependencies } = require('./package');
+
+
+
+const dependenciesRegEx = Object.keys(dependencies).reduce((acc, dependency) => {
+	acc.push(
+		new RegExp(`^${dependency}$`),
+		new RegExp(`^${dependency}\/.+`),
+	);
+	return acc;
+}, [])
+
+
+function checkRegEx(regEx) {
+	return regEx.test(this);
+}
+
+
+function externalizeRequest(context, request, callback) {
+	if (dependenciesRegEx.some(checkRegEx, request)) {
+		callback(null, `umd ${request}`);
+	} else {
+		callback();
+	}
+}
+
 
 
 module.exports = {
@@ -28,5 +53,5 @@ module.exports = {
 			'@': path.resolve('src'),
 		}
 	},
-	externals: [nodeExternals()],
+	externals: [externalizeRequest],
 };

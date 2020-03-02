@@ -4,8 +4,9 @@
   "description": "Function set for extensible react developing.",
   "main": "dist/index.js",
   "scripts": {
-    "develop-build": "cross-env NODE_ENV=development webpack-cli --display-modules",
-    "build": "cross-env NODE_ENV=production webpack-cli --display-modules"
+    "dev": "cross-env NODE_ENV=development webpack-cli --display-modules",
+    "prod": "cross-env NODE_ENV=production webpack-cli --display-modules",
+    "start": "cross-env NODE_ENV=development webpack-cli --display-modules -w"
   },
   "repository": {
     "type": "git",
@@ -34,7 +35,6 @@
     "ts-loader": "^6.2.1",
     "typescript": "^3.7.5",
     "webpack": "^4.41.5",
-    "webpack-cli": "^3.3.10",
-    "webpack-node-externals": "^1.7.2"
+    "webpack-cli": "^3.3.10"
   }
 }
